@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="salesforceapp">
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <!-- inject:css -->
+    <!-- endinject -->
+</head>
+<body>
+     <script src='https://www.google.com/recaptcha/api.js'></script>
+     <!-- inject:js -->
+    <!-- endinject -->
+    <div ng-controller="maincontroller" style="margin:20px">
+        <div ng-if="FormStatus.SubmittedSuccessfully" class="bubble me" style="margin:20px;position:fixed;top:30px;left:50px;top: 100px;left: 800px;background-color:lightgreen">
+            <p style="font-size:medium;font-weight:500;color:green">
+                Form has been sent successfully
+            </p>
+        </div>
+        <div ng-if="FormStatus.SubmittedReturnedError || FormStatus.LoadingError" class="bubble me" style="margin:20px;position:fixed;top:30px;left:50px;top: 100px;left: 800px;background-color:lightsalmon">
+            <p style="font-size:medium;font-weight:500;color:darkred" class="">
+               {{FormStatus.Error || 'There is an error in submitting the form to server . Please try it later'}} 
+            </p>
+        </div>
+        
+        <div>
+            
+            <form novalidate name="form" ng-submit="Submit(form)">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4><span style="color:darkcyan"><strong>Salesforce Form</strong></span></h4></div>
+                    <div class="panel-body">
+                        <!-- inject:head:html -->
+                        <!-- contents of html partials will be injected here -->
+                        <!-- endinject -->
+                        <div class="col-sm-12 form-group">
+                            <div id="recaptcha" ></div>
+                            <div id="overlay" style="height: 50%;align-content: center" ng-if="FormStatus.Loading">
+                                <h3>Loading...</h3>
+                                <img src="/Images/loading.gif" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <div>
+                        <button ng-if="FormStatus.Loading===false && !FormStatus.LoadingError" type="submit" ng-disabled="FormStatus.Sending" class="btn btn-primary col-sm-1">{{(FormStatus.Sending?'Sending...':'Send')}}</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</body>
+</html>
